@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { DESKTOP, MOBILE, MOTION, gsap, useAnim } from "@/lib/gsap";
+import { DESKTOP, MOBILE, MOTION, ScrollTrigger, gsap, useAnim } from "@/lib/gsap";
 import { TLink } from "./PageTransition";
 
 export default function Reperes() {
@@ -44,6 +44,15 @@ export default function Reperes() {
       const frames = gsap.utils.toArray<HTMLElement>(".lieu");
       const items = gsap.utils.toArray<HTMLElement>(".lieu, .reperes__note");
       const last = items[items.length - 1];
+
+      // Hors écran à droite, ces images ne se chargeraient qu'au dernier moment :
+      // on les demande quand la section approche, pour ne jamais montrer un cadre vide.
+      ScrollTrigger.create({
+        trigger: root,
+        start: "top 250%",
+        once: true,
+        onEnter: () => root.querySelectorAll("img").forEach((img) => (img.loading = "eager")),
+      });
 
       const emphasize = () => {
         const x = Number(gsap.getProperty(items[0], "x"));

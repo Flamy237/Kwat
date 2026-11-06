@@ -3,6 +3,7 @@
 
 export const site = {
   name: "Kwat",
+  url: "https://kwat-nu.vercel.app",
   tagline: "Le réseau des voisins",
   quartier: "Bonamoussadi",
   ville: "Douala",
